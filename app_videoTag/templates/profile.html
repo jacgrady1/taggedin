@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block title %}
+  <title>TaggedIn - My Profile</title>
+{% endblock %}
+
+{% block active %}
+                <li><a href="/">Home</a></li>
+                <li class="active"><a href="{% url 'upload' %}">Upload Video</a></li>
+                
+                {% if request.user.is_authenticated %}
+                <li><a href="{% url 'viewprofile' user.id %}">My Profile</a></li>
+                {% endif %}
+              {% endblock %}
+
+
+{% block content %}
+  <div class="container">
+        <br/>
+        <!-- Start Info Unit -->
+    <!-- End Info Unit -->   
+        
+        <div class="row-fluid" >
+
+            <div class="span9 main-section" height="800">
+                
+                <!-- Start Left Section -->
+                <br>
+                <div >
+                    
+                        <div >
+                            <!-- <div class="thumbnail"> -->
+                                <div class="thumbnail" ></div>
+                                <div><br>
+                                <div class="wrapper">
+
+                                    {% for doc in video %}
+                                    <!-- Space For videos-->            
+                                    <li class="span3">
+          <div class="thumbnail">
+            <video id="{{doc.id}}" preload data-setup="{}" width="95%" height="100"><source src="{{ doc.docfile.url }}" type="video/mp4">
+            </video>
+
+            <div class="caption">
+              <h6><a href="{% url 'play' doc.id %}" >{{doc.text}}</a></h6>
+              <p>{{doc.description}}</p>
+            </div>
+          </div>
+        </li>
+                                    {% endfor %}
+
+                                    </div>
+                                    
+                                    
+                                </div>
+                           
+                        </div>
+                     
+                </div>
+               
+            </div>
+            <!-- End Left Section -->
+            <!-- Start Right Section -->
+            <div id="side-section" class="span3">
+                
+<div class="nav nav-list" style="width: 220px;">
+             <div >
+
+            <h2 style="padding-left: 30px; ">{{ owner.username }}</h2>      
+        </div>
+        {% if form.picture.value %}
+        <div class="row">
+            <img class="img-responsive" src="{% url 'photo' owner.id %}" alt="{{ owner.username }} " style="width: 120px; height: 90px; padding-left: 50px; padding-bottom: 20px; ">
+        </div>
+        {% endif %}
+<div style=" padding-left: 30px; padding-top: 10px;">
+<div class="row">
+        <p><i>Introduction:</i></p>
+        <p>{{ profile.intro }}</p>
+        <p><i>Birth Date:</i></p>
+        <p>{{ profile.dob }}</p> 
+        <p><i>Phone Number:</i></p>
+        <p>{{ profile.phone }}</p>
+        <p><i>Email Address:</i></p>
+        <p>{{ profile.email }}</p>
+        <p><i>Gender:<i></p>
+        <p>{{ profile.gender }}</p>
+        <br/>
+</div>
+</div>
+
+        {% if owner.id = user.id %}
+     <a href="{% url 'editprofile' %}" >
+      <h2 style=" padding-left: 30px;"><input class="btn btn-primary" type="submit" value="Edit my profile" /></h2>
+      <!--      <h5 style=" padding-left: 30px;">Edit my profile</h5> -->
+        </a>
+{% endif %}
+
+
+</div>
+
+
+
+
+                
+            </div>
+        </div>
+        <hr>
+    </div>
+</div>
+
+
+
+
+
+
+
+        
+{% endblock %}
+

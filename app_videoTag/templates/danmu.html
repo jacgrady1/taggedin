@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load humanize %}
+{% block title %}
+    <title>TaggedIn - Chick Chick</title>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{% static "css/styles.css"%}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/static/css/base.min.css?1"/>
+    <script src="{% static "js/CommentCoreLibrary.min.js"%}"></script>
+    <script src="{% static "js/ABPlayer.min.js"%}"></script>
+    
+    <script src="{% static "js/jquery.min.js"%}" type="text/javascript"></script>
+    <script src="{% static "js/videoTagController.js"%}" type="text/javascript"></script>
+    <script src="{% static "js/updateTag.js"%}" type="text/javascript"></script>
+    <script src="{% static "js/taggedinPlayer.js"%}" type="text/javascript"></script>
+    <script src="{% static "js/seek.js"%}" type="text/javascript"></script>
+    
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <br>
+        <br>
+        <!-- Start Info Unit -->
+        <div id="info-unit">
+        </div>
+        <!-- End Info Unit -->
+        <div>
+            
+            <div class="row-fluid" >
+                <div class="span9 main-section">
+                    
+                    <!-- Start Left Section -->
+                    
+                    <div class="row-fluid">
+                        <ul class="thumbnails">
+                            
+                            
+                            <div >
+                                <!-- <div class="thumbnail"> -->
+                                <li class="span31">
+                                    <div class="thumbnail">
+                                        <div class="caption">
+                                            <input id="identifier" type="hidden" value="{{document.text}}-{{document.user.username}}">
+                                            <h6>{{document.text}} - <a href="{% url 'viewprofile' document.user.id %}" >{{document.user.username}} </a></h6>
+                                            
+                                            <p>{{document.description}}</p>
+                                        </div>
+                                        <div class="wrapper">
+                                            <hr width="600">
+                                            <video id="video-1" preload="auto" loop autobuffer="true" data-setup='{"example_option":true}' width="600" height="400">
+                                                <source src="{{ document.docfile.url }}" type="video/mp4">
+                                                <source src="//static.cdn.moe/ccltestingvideos/otsukimi_recital.mp4" type="video/mp4">
+                                                <p>Your browser does not support html5 video!</p>
+                                            </video>
+                                            <video id="video-2" style="display:none;" data-setup="{}" width="800" height="450">
+                                                <source src="//static.cdn.moe/ccltestingvideos/outer_science.webm" type="video/webm">
+                                                <source src="//static.cdn.moe/ccltestingvideos/outer_science.mp4" type="video/mp4">
+                                                <p>Your browser does not support html5 video!</p>
+                                            </video>
+                                            <div id="load-player"></div>
+                                            <a type="hidden" id="click-load" style="display:none;" class="btn btn-primary" href="#">PLAY</a><br>
+                                            
+                                            <!--  input danmu -->
+                                            <div>
+                                                <txtText><form class="comment_form" action="{% url 'addtag' document.id %}" method="post" enctype="multipart/form-data">
+                                                    
+                                                    
+                                                    {{form.text}} {{form.text.errors}}
+                                                    
+                                                    <div>
+                                                        <input id="current" type="hidden" name="startpoint" value=""/>
+                                                        <input class="btn btn-primary" type="submit" value="tag" />
+                                                    </div>
+                                                    
+                                                    {% csrf_token %}
+                                                </form></txtText>
+                                            </div>
+                                            <!-- input danmu-->
+                                        </div>
+                                    </div>
+                                </li>
+                            </div>
+                            
+                        </ul>
+                        
+                        
+                        
+                    </div>
+                    
+                </div>
+                <!-- End Left Section -->
+                <!-- Start Right Section -->
+                <div id="side-section" class="span3">
+                    
+                    <div class="module-top"><i class="icon-comments"></i> Latest Tags</div>
+                    <table class="table table-hover">
+                        
+                        <thead>
+                            <tr >
+                                <th>Time</th>
+                                <th>Tagged</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody class="comment-body" id="tagbody" >
+                            {% for tag in document.tagging_set.all reversed %}
+                                <tr class="comment" id="tagidentifier" tagsecond="{{tag.startsecond}}">
+                                    <td class="comment-heading">{{tag.starttime}}</td>
+                                    <td class="comment-heading">{{tag.text}}</td>
+                                    <td class="comment-heading">{{tag.created|naturaltime}}</td>
+                                </tr>
+                            {% endfor%}
+                        </tbody>
+                        
+                        <!-- one comment -->
+                    </table>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+{% endblock %}

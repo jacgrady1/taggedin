@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<i>
+
+{% for tag in tags %}
+<d p="{{tag.startsecond}},1,25,16777215,1373373747,0,819ef70d,253049411">{{tag.text}}</d>
+{% endfor %}
+
+</i>

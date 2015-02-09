@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}
+  <title>TaggedIn - Video Portal Theme</title>
+  
+{% endblock %}
+
+            
+
+
+{% block content %}
+  <div class="container">
+    <!-- Start Info Unit -->
+    <div id="info-unit"> <div class="alert alert-block alert-info fade in">
+
+      <button type="button" class="close" data-dismiss="alert"></button>
+
+      
+
+<!--
+      <button type="button" class="close" data-dismiss="alert">×</button>
+      <h4 class="alert-heading">Your one stop destination for all things you watch.</h4>
+      <p>Change this and that and try again. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum.</p>
+      <p><a class="btn btn-primary" href="#">Join TaggedIn</a> <a class="btn btn-success" href="#">Or do this</a></p>
+
+-->
+
+    </div>
+  </div>
+  <!-- End Info Unit -->
+  <div>
+    
+    <div class="row-fluid" >
+      <div class="span9 main-section">
+        <!-- Options bar (Left Section) -->
+        
+    <!-- End Options Bar -->
+    <!-- Start Left Section -->
+
+
+    {% if documents %}
+
+      <div class="row-fluid">
+      <ul class="thumbnails">
+
+        {% for document in documents %}
+          
+        
+        <!-- <div class="thumbnail"> -->
+
+
+        <li class="span3">
+          <div class="thumbnail">
+            <video id="{{document.id}}" preload data-setup="{}" width="95%" height="100"><source src="{{ document.docfile.url }}" type="video/mp4">
+            </video>
+
+
+            <div class="caption">
+              <h6><a href="{% url 'play' document.id %}" >{{document.text}}</a></h6>
+              <p>{{document.description}}</p>
+            </div>
+          </div>
+        </li>
+       
+        
+        {% endfor %}
+        </ul>
+        {% else %}
+        <p>No documents.</p>
+        
+
+    {% endif %}
+ </div>
+
+
+
+    <div class="pagination pagination-small pull-right">
+      
+    </div>
+  </div>
+  <!-- End Left Section -->
+  <!-- Start Right Section -->
+  <div id="side-section" class="span3">
+   
+
+    
+</div>
+<hr>
+</div>
+</div>
+
+{% endblock %}

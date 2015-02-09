@@ -1,0 +1,138 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    
+    
+    {% block title %}
+    {% endblock %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Include CSS Assets -->
+    <link href="{% static "css/jkit.css"%}" rel="stylesheet">
+    <link href="{% static "css/bootstrap.css"%}" rel="stylesheet">
+    
+    <link href="{% static "css/app.css"%}" rel="stylesheet">
+    <link href="{% static "css/font-awesome.css"%}" rel="stylesheet">
+    <link href="{% static "css/bootstrap-responsive.css"%}" rel="stylesheet">
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="../assets/ico/favicon.png">
+  </head>
+  <!-- <body style="background-image:url(../static/img/background-colorful.jpg)">-->
+  <body>
+  <script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '338787722970817',
+      xfbml      : true,
+      version    : 'v2.2'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+    <!-- Start Header -->
+    <div id="header">
+      <div class="navbar navbar-static-top">
+        <div class="navbar-inner">
+          <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </a>
+            <a href="{% url 'home' %}"><h2>TaggedIn</h2></a>
+            <div class="nav-collapse collapse">
+              <ul class="nav">
+                {% block active %}
+                  <li class="active"><a href="/">Home</a></li>
+                  <li><a href="{% url 'upload' %}">Upload Video</a></li>
+                  
+
+                  {% if request.user.is_authenticated %}
+                  <li><a href="{% url 'viewprofile' user.id %}">My Profile</a></li>                  
+                  {% endif %}
+                {% endblock %}
+              </ul>
+              <form class="navbar-form pull-left" action="{% url 'search' %}" method="get">
+                <div class="input-append">
+                  <input class="span3" id="appendedInputButtons" type="text" name="searchwords" placeholder="Search...">
+                  <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+                </div>
+              </form>
+              
+              {% block loginregister %}
+                <p class="navbar-text pull-right">
+  {% if request.user.is_authenticated %}
+  Welcome '{{ request.user.username }}'
+  <a  href="{% url 'logout' %}">logout</a>
+  {% else %}
+  <a href="{% url 'login' %}" class="navbar-link">login</a> or <a href="{% url 'register' %}"   class="navbar-link">register</a>
+  {% endif %}
+   </p>
+              {% endblock %}
+              
+              
+              </div><!--/.nav-collapse -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End Header -->
+      {% block content %}
+      {% endblock %}
+      <footer class="footer">
+        <div class="container">
+          <div class="row-fluid">
+            <div class="span6"> <p class="copyright"> &copy; 2013 <strong>TaggedIn</strong> Video Tags - Crafted by <a href="#">TaggedIn</a> </p></div>
+            <div class="span6">   <div class="pagination pull-right">
+              <ul>
+  <div
+  class="fb-like"
+  data-share="true"
+  data-width="450"
+  data-show-faces="true">
+</div>
+                
+                
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- Include Javascript/JQuery Assets
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{% static "js/jquery.js"%}"></script>
+    <script src="{% static "js/bootstrap.js"%}"></script>
+    <script src="{% static "js/jquery.jkit.1.1.10.js"%}"></script>
+    <script src="{% static "js/jquery.easing.1.3.js"%}"></script>
+    <script type="text/javascript">
+    $("[data-rel=tooltip]").tooltip();
+    </script>
+    <script type="text/javascript">
+    $(document).ready(function(){
+    $('body').jKit();
+    });
+    </script>
+  </body>
+</html>

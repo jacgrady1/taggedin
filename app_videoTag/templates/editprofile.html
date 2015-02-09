@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% block title %}
+  <title>TaggedIn - My Profile</title>
+{% endblock %}
+
+{% block active %}
+                <li><a href="/">Home</a></li>
+                <li class="active"><a href="{% url 'upload' %}">Upload Video</a></li>
+                
+                {% if request.user.is_authenticated %}
+                <li><a href="{% url 'viewprofile' user.id %}">My Profile</a></li>
+                {% endif %}
+              {% endblock %}
+
+
+{% block content %}
+ 
+
+
+  <div class="container">
+        <br/>
+        <!-- Start Info Unit -->
+
+    <!-- End Info Unit -->
+    
+        
+        <div class="row-fluid" >
+
+            <div class="span9 main-section">
+                
+                <!-- Start Left Section -->
+                
+                <div class="row-fluid">
+                        
+                        <div >
+                            <!-- <div class="thumbnail"> -->
+                            
+                                <div class="thumbnail">
+                       
+
+                                    <div class="wrapper">
+
+                                                      
+
+
+
+
+
+                                    </div>
+                                    
+                                    
+                                </div>
+                           
+                        </div>
+   
+                </div>
+               
+            </div>
+            <!-- End Left Section -->
+            <!-- Start Right Section -->
+            <div id="side-section" class="span3">
+                 <div class="nav nav-list" style="width: 220px;">
+
+                                                        <div>
+
+            <h2>{{ user.username }}</h2>
+            <br/>
+        </div>
+
+        {% if form.picture.value %}
+        <div class="row">
+            <img class="img-responsive" src="{% url 'photo' user.id %}" alt="{{ user.username }} " style="width: 120px; height: 90px; padding-left: 20px; padding-bottom: 20px;">
+        </div>
+        {% endif %}
+
+     
+        <form enctype="multipart/form-data" method="post" action="{% url 'editprofile' %}">
+
+            {% for field in form.visible_fields %}
+            <tr>
+                <td><h5>{{field.label_tag}}{{field.errors}}</h5></td>
+                {{field}}
+            </tr>
+            <br/>{% endfor %}
+            <br/>
+            <br/>   
+                
+      <input class="btn btn-primary" type="submit" value="Save" />
+            {% csrf_token %}     
+        <a href="{% url 'viewprofile' user.id %}" >
+            <input onclick="{% url 'viewprofile' user.id %}" class="btn btn-primary" type="button" value="Cancel" />
+        </a> 
+
+
+        </form>
+    </div>
+                
+
+                
+
+            </div>
+        </div>
+        <hr>
+    </div>
+</div>
+
+
+
+
+
+
+
+        
+{% endblock %}
+

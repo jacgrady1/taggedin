@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load humanize %}
+{% block title %}
+    <title>TaggedIn - Chick Chick</title>
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{% static "css/styles.css"%}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="/static/css/base.min.css?1"/>    
+    <script src="{% static "js/CommentCoreLibrary.min.js"%}"></script>
+    <script src="{% static "js/ABPlayer.min.js"%}"></script>
+    
+    <script src="{% static "js/jquery.min.js"%}" type="text/javascript"></script>
+    <script src="{% static "js/videoTagController.js"%}" type="text/javascript"></script>  
+    <script src="{% static "js/updateTag.js"%}" type="text/javascript"></script> 
+    <script src="{% static "js/taggedinPlayer.js"%}" type="text/javascript"></script> 
+    <script src="{% static "js/seek.js"%}" type="text/javascript"></script>  
+    
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <br>
+        <br>
+        <!-- Start Info Unit -->
+        <div id="info-unit"> <div class="alert alert-block alert-info fade in">
+            <button type="button" class="close" data-dismiss="alert"></button>
+            <a class="btn btn-primary" href="#">Most Popular</a>
+            <a class="btn btn-success" href="#">TV Shows</a>
+            <a class="btn btn-success" href="#">Speeches</a>
+            <a class="btn btn-success" href="#">Movies</a>
+            <a class="btn btn-success" href="#">Lectures</a>
+            <a class="btn btn-success" href="#">Lectures</a>
+            <a class="btn btn-success" href="#">Audios</a></p>
+        </div>
+    </div>
+    <!-- End Info Unit -->
+    <div>
+        
+        <div class="row-fluid" >
+            <div class="span9 main-section">
+                
+                <!-- Start Left Section -->
+                
+                <div class="row-fluid">
+                    <ul class="thumbnails">
+                        
+                        
+                        <div >
+                            <!-- <div class="thumbnail"> -->
+                            <li class="span31">
+                                <div class="thumbnail">
+                                    <div class="caption">
+                                    <input id="identifier" type="hidden" value="{{document.text}}-{{document.user.username}}">
+                                        <h6>{{document.text}} - <a href="{% url 'viewprofile' document.user.id %}" >{{document.user.username}} </a></h6>
+
+                                       
+                                        <p>{{document.description}}</p>
+                                    </div>
+
+                                    <div class="wrapper">
+                                        <hr width="800">
+                                        <video id="video-1" preload="auto" autobuffer="true" data-setup='{"example_option":true}' width="800" height="450">
+                                            <source src="{{ document.docfile.url }}" type="video/mp4">
+                                            <source src="//static.cdn.moe/ccltestingvideos/otsukimi_recital.mp4" type="video/mp4">
+                                            <p>Your browser does not support html5 video!</p>
+                                        </video>
+                                        <video id="video-2" style="display:none;" data-setup="{}" width="800" height="450">
+                                            <source src="//static.cdn.moe/ccltestingvideos/outer_science.webm" type="video/webm">
+                                            <source src="//static.cdn.moe/ccltestingvideos/outer_science.mp4" type="video/mp4">
+                                            <p>Your browser does not support html5 video!</p>
+                                        </video>
+                                        <div id="load-player"></div>
+                                        <a id="click-load" class="btn btn-primary" href="#">PLAY</a><br>
+                                        
+
+                                        <!--  input danmu -->
+
+                                        <div><form class="comment_form" action="{% url 'addtag' document.id %}" method="post" enctype="multipart/form-data">
+                                        <div>
+                                       
+                                        {{form.text}} {{form.text.errors}}
+                                       
+                                        
+                                        <input id="current" type="hidden" name="startpoint" value=""/>
+                                        <input class="btn btn-primary" type="submit" value="tag" />
+                                        </div>
+                                        
+                                        {% csrf_token %}
+                                        </form></div>
+
+                                        <a id="seek-to" class="btn btn-primary" href="#">seek to</a><br>
+
+                                        <div id="current1">0:00</div>
+                                        <div id="duration">0:00</div>
+                                         <!-- input danmu-->
+
+                                    </div>                                    
+                                </div>
+                            </li>
+                        </div>
+                        
+                    </ul>
+                    
+                    
+                    
+                </div>
+               
+            </div>
+            <!-- End Left Section -->
+            <!-- Start Right Section -->
+            <div id="side-section" class="span3">
+                 <ul class="nav nav-list">
+                    <li class="nav-header">filter by</li>
+                    <li class="active"><a href="#"><i class="icon-time"></i> Recently added</a></li>
+                    <li><a href="#"><i class="icon-heart-empty"></i> Most Popular</a></li>
+                    <li><a href="#"><i class="icon-star-empty"></i> Highest Rating</a></li>
+                </ul> 
+                
+                <div class="module-top"><i class="icon-comments"></i> Latest Tags</div>
+                <table class="table table-hover">
+                
+                    <thead>
+                      <tr >
+                      <th>Time</th>
+                      <th>Tagged</th>
+                      <th>Date</th>
+                     </tr>
+                  </thead>
+                  <tbody class="comment-body" id="tagbody" >
+                    {% for tag in document.tagging_set.all reversed %}
+                        <tr class="comment" id="tagidentifier" tagsecond="{{tag.startsecond}}">
+                        <td class="comment-heading">{{tag.starttime}}</td>
+                        <td class="comment-heading">{{tag.text}}</td>
+                        <td class="comment-heading">{{tag.created|naturaltime}}</td>
+                        </tr>
+                    {% endfor%}
+
+                  </tbody>
+                 
+                <!-- one comment -->
+                </table>
+
+            </div>
+        </div>
+        <hr>
+    </div>
+</div>
+{% endblock %}
